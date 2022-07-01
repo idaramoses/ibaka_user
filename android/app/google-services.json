@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "865558791864",
+    "project_id": "ibaka-da9f0",
+    "storage_bucket": "ibaka-da9f0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:865558791864:android:23364896faa5e8cee7164d",
+        "android_client_info": {
+          "package_name": "com.maradi.ibaka"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "865558791864-vadbbbqcqssg0bnloq15gbpjs83h4uou.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAH5YHcWKxjVSg3gYS0aViMfjzMFVcP1P0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "865558791864-vadbbbqcqssg0bnloq15gbpjs83h4uou.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
