@@ -132,11 +132,11 @@ class _MainChatState extends State<MainChat> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   SizedBox(height: 10),
-                                  Expanded(
-                                      child: lastGroupMessageTime(
-                                          dataid,
-                                          FirebaseAuth
-                                              .instance.currentUser.uid)),
+                                  // Expanded(
+                                  //     child: lastGroupMessageTime(
+                                  //         dataid,
+                                  //         FirebaseAuth
+                                  //             .instance.currentUser.uid)),
                                   Expanded(
                                     child: groupChatCounter(doc['house_id']),
                                   )

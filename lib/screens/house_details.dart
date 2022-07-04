@@ -123,7 +123,9 @@ class _HouseDetailsState extends State<HouseDetails> {
                                                         child: Center(
                                                           child:
                                                               SpinKitThreeBounce(
-                                                            color: Colors.black,
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .accentColor,
                                                             size: 30,
                                                           ),
                                                         ),
@@ -153,7 +155,8 @@ class _HouseDetailsState extends State<HouseDetails> {
                                             height: 500,
                                             child: Center(
                                               child: SpinKitThreeBounce(
-                                                color: Colors.black,
+                                                color: Theme.of(context)
+                                                    .accentColor,
                                                 size: 30,
                                               ),
                                             ),
@@ -309,7 +312,7 @@ class _HouseDetailsState extends State<HouseDetails> {
                     Text(
                       'Price',
                       style: TextStyle(
-                          color: Colors.black,
+                          // color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 18),
                     ),
@@ -320,7 +323,9 @@ class _HouseDetailsState extends State<HouseDetails> {
                           fontSize: 28,
                           fontWeight: FontWeight.bold),
                     ),
-                    Divider(),
+                    Divider(
+                      color: Theme.of(context).accentColor.withOpacity(0.4),
+                    ),
                     Container(
                       height: 80,
                       padding: EdgeInsets.symmetric(horizontal: 18.0),
@@ -352,7 +357,11 @@ class _HouseDetailsState extends State<HouseDetails> {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: VerticalDivider(),
+                              child: VerticalDivider(
+                                color: Theme.of(context)
+                                    .accentColor
+                                    .withOpacity(0.4),
+                              ),
                             ),
                             Expanded(
                               child: Column(
@@ -377,7 +386,11 @@ class _HouseDetailsState extends State<HouseDetails> {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: VerticalDivider(),
+                              child: VerticalDivider(
+                                color: Theme.of(context)
+                                    .accentColor
+                                    .withOpacity(0.4),
+                              ),
                             ),
                             Expanded(
                               child: Column(
@@ -405,7 +418,9 @@ class _HouseDetailsState extends State<HouseDetails> {
                         ),
                       ),
                     ),
-                    Divider(),
+                    Divider(
+                      color: Theme.of(context).accentColor.withOpacity(0.4),
+                    ),
                   ],
                 ),
               ),
@@ -426,7 +441,9 @@ class _HouseDetailsState extends State<HouseDetails> {
                     SizedBox(
                       height: 10,
                     ),
-                    Divider()
+                    Divider(
+                      color: Theme.of(context).accentColor.withOpacity(0.4),
+                    )
                   ],
                 ),
               ),
@@ -469,7 +486,8 @@ class _HouseDetailsState extends State<HouseDetails> {
                                               child: CachedNetworkImage(
                                                 placeholder: (_, string) {
                                                   return SpinKitThreeBounce(
-                                                    color: Colors.white,
+                                                    color: Theme.of(context)
+                                                        .accentColor,
                                                     size: 30,
                                                   );
                                                 },
@@ -505,7 +523,10 @@ class _HouseDetailsState extends State<HouseDetails> {
                               child: CachedNetworkImage(
                                 placeholder: (_, string) {
                                   return Center(
-                                    child: CircularProgressIndicator(),
+                                    child: SpinKitThreeBounce(
+                                      color: Theme.of(context).accentColor,
+                                      size: 30,
+                                    ),
                                   );
                                 },
                                 imageUrl: image,
@@ -521,33 +542,99 @@ class _HouseDetailsState extends State<HouseDetails> {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Divider(),
+                      child: Divider(
+                        color: Theme.of(context).accentColor.withOpacity(0.4),
+                      ),
                     )
                   ],
                 ),
               ),
-              IconButton(
-                  icon: Icon(
-                    Icons.message,
-                    size: 30,
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => Chat(
-                          peername: '${widget.data['user_name']}',
-                          peerId: '${widget.data['user_id']}',
-                          houseId: '${widget.data['house_id']}',
-                          peerAvatar: 'private',
-                        ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                height: MediaQuery.of(context).size.height * 0.35,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Contact Us',
+                      style: kh1,
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Center(
+                      child: CircleAvatar(
+                        maxRadius: 45,
+                        backgroundImage:
+                            AssetImage('assets/images/person2.jpeg'),
                       ),
-                    );
-                  })
-
-              // Container(
-              //   height: 150,
-              //   child: houseDetailsList(),
-              // )
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Center(
+                        child: Text(
+                      widget.data['user_name'],
+                      style: TextStyle(
+                          color: primaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18),
+                    )),
+                    // Center(
+                    //     child: Text(
+                    //   'Takaful Real Estate',
+                    //   style: TextStyle(color: Colors.black, fontSize: 14),
+                    // )),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 40,
+                          width: 120,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20.0),
+                              color: Theme.of(context).backgroundColor),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => Chat(
+                                    peername: '${widget.data['user_name']}',
+                                    peerId: '${widget.data['user_id']}',
+                                    userId: '${widget.data['user_id']}',
+                                    houseId: '${widget.data['house_id']}',
+                                    peerAvatar: 'private',
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.mail,
+                                  color: primaryColor,
+                                  size: 17,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  'Message',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              )
             ],
           ),
         ),

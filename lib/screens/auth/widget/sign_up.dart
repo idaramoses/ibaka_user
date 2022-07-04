@@ -295,7 +295,9 @@ class _SignUpState extends State<SignUp> {
                   children: [
                     socialMediaButton(
                         img: 'assets/icons/google.png',
-                        callback: () {},
+                        callback: () {
+                          googleSignIn();
+                        },
                         text: 'Google',
                         color: Colors.grey[200]),
                     socialMediaButton(

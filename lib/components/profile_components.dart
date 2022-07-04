@@ -81,7 +81,9 @@ firstHalf(BuildContext context) {
         ),
         // Padding(
         //   padding: const EdgeInsets.symmetric(horizontal: 30.0),
-        //   child: Divider(),
+        //   child:  Divider(
+        //         color: Theme.of(context).accentColor.withOpacity(0.4),
+        //       ),
         // ),
         // Container(
         //   height: 40,
@@ -154,7 +156,9 @@ firstHalf(BuildContext context) {
         // ),
         // Padding(
         //   padding: const EdgeInsets.symmetric(horizontal: 30.0),
-        //   child: Divider(),
+        //   child:  Divider(
+        //         color: Theme.of(context).accentColor.withOpacity(0.4),
+        //       ),
         // ),
       ],
     ),

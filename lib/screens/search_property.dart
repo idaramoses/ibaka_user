@@ -58,9 +58,9 @@ class _SearchPropertyBodyState extends State<SearchPropertyBody> {
             ),
           ),
           _rowOfButtons(),
-          Container(
-            child: propertyViews[selectedView],
-          ),
+          // Container(
+          //   child: propertyViews[selectedView],
+          // ),
           SizedBox(
             height: 20,
           ),

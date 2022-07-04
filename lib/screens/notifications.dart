@@ -140,7 +140,9 @@ class Notifications extends StatelessWidget {
                                 )
                               ],
                             ),
-                            Divider()
+                             Divider(
+                color: Theme.of(context).accentColor.withOpacity(0.4),
+              )
                           ],
                         ),
                       ),

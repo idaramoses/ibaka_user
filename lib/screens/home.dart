@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -20,14 +21,56 @@ class _HomeState extends State<Home> {
   int galleryCount = 10;
   bool loadingMore = false;
   final scrollController = ScrollController();
+  static final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  void updateuserprofile() async {
+    var ref = FirebaseFirestore.instance
+        .collection("users")
+        .doc('${FirebaseAuth.instance.currentUser.uid},');
+    ref.set({
+      "user_id": FirebaseAuth.instance.currentUser.uid,
+      "user_email": FirebaseAuth.instance.currentUser.email,
+      'user_name': FirebaseAuth.instance.currentUser.displayName,
+      'isAdmin': false,
+    }).whenComplete(() => {
+          _firebaseMessaging.getToken().then((token) {
+            print(token);
+            ref.update({'token': token.toString()});
+          })
+        });
+  }
+
+  Widget userup() {
+    updateuserprofile();
+    return Container();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      // backgroundColor: Theme.of(context).backgroundColor,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Container(
+              height: 0,
+              width: 0,
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection("users")
+                    .where("user_id",
+                        isEqualTo: FirebaseAuth.instance.currentUser.uid)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.data != null)
+                    return snapshot.data.docs.length > 0
+                        ? Container()
+                        : userup();
+                  else
+                    return Container();
+                },
+              ),
+            ),
             textFieldWithFilter(context: context),
             appCarousal(context),
             Padding(
@@ -93,7 +136,7 @@ class _HomeState extends State<Home> {
                                   },
                                   child: Expanded(
                                     child: ListView.builder(
-                                      itemCount: 2,
+                                      itemCount: snapshot.data.docs.length,
                                       controller: scrollController,
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (context, index) {
@@ -103,234 +146,259 @@ class _HomeState extends State<Home> {
                                             snapshot.data.docs;
                                         return Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Card(
-                                            margin: EdgeInsets.only(right: 8.0),
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(10.0))),
-                                            child: Container(
-                                              height: 230,
-                                              width: 180,
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(10.0),
-                                              ),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      Navigator.of(context)
-                                                          .push(
-                                                        MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              HouseDetails(
-                                                            data,
-                                                            snapshot
-                                                                .data
-                                                                .docs[index]
-                                                                .reference,
-                                                          ),
-                                                        ),
-                                                      )
-                                                          .then((value) {
-                                                        setState(() {});
-                                                      });
-                                                    },
-                                                    child: Container(
-                                                      height: 150,
-                                                      child: CachedNetworkImage(
-                                                        placeholder:
-                                                            (context, s) {
-                                                          return Center(
-                                                            child:
-                                                                CircularProgressIndicator(
-                                                              backgroundColor:
-                                                                  Colors.grey,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              Navigator.of(context)
+                                                  .push(
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      HouseDetails(
+                                                    data,
+                                                    snapshot.data.docs[index]
+                                                        .reference,
+                                                  ),
+                                                ),
+                                              )
+                                                  .then((value) {
+                                                setState(() {});
+                                              });
+                                            },
+                                            child: Card(
+                                              margin:
+                                                  EdgeInsets.only(right: 8.0),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              10.0))),
+                                              child: Container(
+                                                height: 230,
+                                                width: 180,
+                                                decoration: BoxDecoration(
+                                                  color: Theme.of(context)
+                                                      .backgroundColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0),
+                                                ),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        Navigator.of(context)
+                                                            .push(
+                                                          MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                HouseDetails(
+                                                              data,
+                                                              snapshot
+                                                                  .data
+                                                                  .docs[index]
+                                                                  .reference,
                                                             ),
-                                                          );
-                                                        },
-                                                        imageUrl:
-                                                            data['cover_image'],
-                                                        fit: BoxFit.cover,
+                                                          ),
+                                                        )
+                                                            .then((value) {
+                                                          setState(() {});
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        height: 150,
+                                                        child:
+                                                            CachedNetworkImage(
+                                                          placeholder:
+                                                              (context, s) {
+                                                            return Center(
+                                                              child:
+                                                                  SpinKitThreeBounce(
+                                                                color: Colors
+                                                                    .black,
+                                                                size: 30,
+                                                              ),
+                                                            );
+                                                          },
+                                                          imageUrl: data[
+                                                              'cover_image'],
+                                                          fit: BoxFit.cover,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  Container(
-                                                    padding:
-                                                        EdgeInsets.all(8.0),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          '${data['sell_type']}',
-                                                          style: kh4,
-                                                        ),
-                                                        SizedBox(
-                                                          height: 2,
-                                                        ),
-                                                        Text(
-                                                          '${data['address']}',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.grey,
-                                                              fontSize: 10),
-                                                          maxLines: 1,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                        ),
-                                                        SizedBox(
-                                                          height: 2,
-                                                        ),
-                                                        IntrinsicHeight(
-                                                          child: Row(
-                                                            children: [
-                                                              Text(
-                                                                '${data['bedroom_numbers']} ',
-                                                                style: TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize:
-                                                                        12),
-                                                              ),
-                                                              Text(
-                                                                'bds ',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        12),
-                                                              ),
-                                                              VerticalDivider(
-                                                                width: 1,
-                                                                color:
-                                                                    Colors.grey,
-                                                              ),
-                                                              Text(
-                                                                ' ${data['bathroom_numbers']}',
-                                                                style: TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize:
-                                                                        12),
-                                                              ),
-                                                              Text(
-                                                                'baths  ',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        12),
-                                                              ),
-                                                              VerticalDivider(
-                                                                width: 1,
-                                                                color:
-                                                                    Colors.grey,
-                                                              ),
-                                                              Text(
-                                                                ' ${data['area']}',
-                                                                style: TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize:
-                                                                        12),
-                                                              ),
-                                                              Text(
-                                                                'sqft',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        12),
-                                                              ),
-                                                            ],
+                                                    Container(
+                                                      padding:
+                                                          EdgeInsets.all(8.0),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            '${data['sell_type']}',
+                                                            style: kh4,
                                                           ),
-                                                        ),
-                                                        Row(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
+                                                          SizedBox(
+                                                            height: 2,
+                                                          ),
+                                                          Text(
+                                                            '${data['address']}',
+                                                            style: TextStyle(
+                                                                color:
+                                                                    Colors.grey,
+                                                                fontSize: 10),
+                                                            maxLines: 1,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                          ),
+                                                          SizedBox(
+                                                            height: 2,
+                                                          ),
+                                                          IntrinsicHeight(
+                                                            child: Row(
                                                               children: [
-                                                                SizedBox(
-                                                                  height: 7,
-                                                                ),
                                                                 Text(
-                                                                  '${data['price']}',
+                                                                  '${data['bedroom_numbers']} ',
                                                                   style: TextStyle(
-                                                                      color:
-                                                                          primaryColor,
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .bold,
                                                                       fontSize:
-                                                                          11),
-                                                                )
+                                                                          12),
+                                                                ),
+                                                                Text(
+                                                                  'bds ',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          12),
+                                                                ),
+                                                                VerticalDivider(
+                                                                  width: 1,
+                                                                  color: Colors
+                                                                      .grey,
+                                                                ),
+                                                                Text(
+                                                                  ' ${data['bathroom_numbers']}',
+                                                                  style: TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontSize:
+                                                                          12),
+                                                                ),
+                                                                Text(
+                                                                  'baths  ',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          12),
+                                                                ),
+                                                                VerticalDivider(
+                                                                  width: 1,
+                                                                  color: Colors
+                                                                      .grey,
+                                                                ),
+                                                                Text(
+                                                                  ' ${data['area']}',
+                                                                  style: TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontSize:
+                                                                          12),
+                                                                ),
+                                                                Text(
+                                                                  'sqft',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          12),
+                                                                ),
                                                               ],
                                                             ),
-                                                            Spacer(),
-                                                            StreamBuilder<
-                                                                DocumentSnapshot>(
-                                                              stream: FirebaseFirestore
-                                                                  .instance
-                                                                  .collection(
-                                                                      "favourites")
-                                                                  .doc("house")
-                                                                  .collection(
-                                                                      FirebaseAuth
-                                                                          .instance
-                                                                          .currentUser
-                                                                          .uid)
-                                                                  .doc(posts[
-                                                                          index]
-                                                                      .id)
-                                                                  .snapshots(),
-                                                              builder: (context,
-                                                                  snap) {
-                                                                if (snap.data ==
-                                                                    null) {
-                                                                  return SizedBox
-                                                                      .shrink();
-                                                                }
-                                                                return IconButton(
-                                                                  onPressed:
-                                                                      () {
-                                                                    if (!snap
-                                                                        .data
-                                                                        .exists)
-                                                                      addToFav(
-                                                                          posts[
-                                                                              index]);
-                                                                    else
-                                                                      removeFromFav(
-                                                                          posts[
-                                                                              index]);
-                                                                  },
-                                                                  icon: Icon(
-                                                                    Icons
-                                                                        .favorite_border,
-                                                                    color: !snap
-                                                                            .data
-                                                                            .exists
-                                                                        ? Colors
-                                                                            .grey
-                                                                        : Colors
-                                                                            .red,
+                                                          ),
+                                                          Row(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  SizedBox(
+                                                                    height: 7,
                                                                   ),
-                                                                );
-                                                              },
-                                                            )
-                                                          ],
-                                                        )
-                                                      ],
-                                                    ),
-                                                  )
-                                                ],
+                                                                  Text(
+                                                                    '${data['price']}',
+                                                                    style: TextStyle(
+                                                                        color:
+                                                                            primaryColor,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .bold,
+                                                                        fontSize:
+                                                                            11),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                              Spacer(),
+                                                              StreamBuilder<
+                                                                  DocumentSnapshot>(
+                                                                stream: FirebaseFirestore
+                                                                    .instance
+                                                                    .collection(
+                                                                        "favourites")
+                                                                    .doc(
+                                                                        "house")
+                                                                    .collection(FirebaseAuth
+                                                                        .instance
+                                                                        .currentUser
+                                                                        .uid)
+                                                                    .doc(posts[
+                                                                            index]
+                                                                        .id)
+                                                                    .snapshots(),
+                                                                builder:
+                                                                    (context,
+                                                                        snap) {
+                                                                  if (snap.data ==
+                                                                      null) {
+                                                                    return SizedBox
+                                                                        .shrink();
+                                                                  }
+                                                                  return IconButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      if (!snap
+                                                                          .data
+                                                                          .exists)
+                                                                        addToFav(
+                                                                            posts[index]);
+                                                                      else
+                                                                        removeFromFav(
+                                                                            posts[index]);
+                                                                    },
+                                                                    icon: Icon(
+                                                                      Icons
+                                                                          .favorite_border,
+                                                                      color: !snap
+                                                                              .data
+                                                                              .exists
+                                                                          ? Colors
+                                                                              .grey
+                                                                          : Colors
+                                                                              .red,
+                                                                    ),
+                                                                  );
+                                                                },
+                                                              )
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -386,52 +454,66 @@ class _HomeState extends State<Home> {
             ),
             Container(
               height: 350,
-              child: Expanded(
-                child: StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance
-                      .collection('property')
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      if (snapshot.data.docs.length == 0) {
-                        return Center(
-                          child: Text(
-                            "No House",
-                            style: TextStyle(),
-                          ),
-                        );
-                      }
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('property')
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data.docs.length == 0) {
+                      return Center(
+                        child: Text(
+                          "No House",
+                          style: TextStyle(),
+                        ),
+                      );
+                    }
 
-                      return Column(
-                        children: [
-                          NotificationListener(
-                            onNotification:
-                                (ScrollEndNotification notification) {
-                              if (notification is ScrollEndNotification &&
-                                  scrollController.position.extentAfter == 0) {
-                                print("end");
+                    return Column(
+                      children: [
+                        NotificationListener(
+                          onNotification: (ScrollEndNotification notification) {
+                            if (notification is ScrollEndNotification &&
+                                scrollController.position.extentAfter == 0) {
+                              print("end");
 
-                                setState(() {
-                                  loadingMore = true;
-                                });
-                                loadMore();
-                              }
-                              return false;
-                            },
-                            child: Expanded(
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.vertical,
-                                itemCount: 2,
-                                physics: NeverScrollableScrollPhysics(),
-                                // scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) {
-                                  Map data = snapshot.data.docs[index].data();
-                                  List<DocumentSnapshot> posts =
-                                      snapshot.data.docs;
-                                  return Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                              setState(() {
+                                loadingMore = true;
+                              });
+                              loadMore();
+                            }
+                            return false;
+                          },
+                          child: Expanded(
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              itemCount: snapshot.data.docs.length,
+                              physics: NeverScrollableScrollPhysics(),
+                              // scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                Map data = snapshot.data.docs[index].data();
+                                List<DocumentSnapshot> posts =
+                                    snapshot.data.docs;
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context)
+                                          .push(
+                                        MaterialPageRoute(
+                                          builder: (context) => HouseDetails(
+                                            data,
+                                            snapshot.data.docs[index].reference,
+                                          ),
+                                        ),
+                                      )
+                                          .then((value) {
+                                        setState(() {});
+                                      });
+                                    },
                                     child: Card(
+                                      color: Theme.of(context).backgroundColor,
                                       margin: EdgeInsets.only(
                                           bottom: 10.0, left: 8.0, right: 8.0),
                                       shape: RoundedRectangleBorder(
@@ -451,10 +533,9 @@ class _HomeState extends State<Home> {
                                               child: CachedNetworkImage(
                                                 placeholder: (context, s) {
                                                   return Center(
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                      backgroundColor:
-                                                          Colors.grey,
+                                                    child: SpinKitThreeBounce(
+                                                      color: Colors.black,
+                                                      size: 30,
                                                     ),
                                                   );
                                                 },
@@ -622,28 +703,28 @@ class _HomeState extends State<Home> {
                                         ),
                                       ),
                                     ),
-                                  );
-                                },
-                              ),
+                                  ),
+                                );
+                              },
                             ),
                           ),
-                          loadingMore
-                              ? Center(
-                                  child: SpinKitThreeBounce(
-                                    color: Colors.black,
-                                    size: 30,
-                                  ),
-                                )
-                              : SizedBox.shrink()
-                        ],
-                      );
-                    } else {
-                      return Center(
-                        child: Text("Loading..."),
-                      );
-                    }
-                  },
-                ),
+                        ),
+                        // loadingMore
+                        //     ? Center(
+                        //         child: SpinKitThreeBounce(
+                        //           color: Colors.black,
+                        //           size: 30,
+                        //         ),
+                        //       )
+                        //     : SizedBox.shrink()
+                      ],
+                    );
+                  } else {
+                    return Center(
+                      child: Text("Loading..."),
+                    );
+                  }
+                },
               ),
             ),
           ],

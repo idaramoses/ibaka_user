@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:onproperty/provider/auth_provider.dart';
 import 'package:onproperty/provider/theme_provider.dart';
 import 'package:onproperty/routes.dart';
+import 'package:onproperty/theming/theme_manager.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -29,21 +30,18 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => SixAuthProvider()),
-        ChangeNotifierProvider(create: (_) => SixThemeProvider()),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          brightness: Brightness.light,
-          primarySwatch: Colors.green,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        onGenerateRoute: RouteGenerator.generateRoute,
-        initialRoute: '/',
-      ),
-    );
+        providers: [
+          ChangeNotifierProvider(create: (_) => SixAuthProvider()),
+          ChangeNotifierProvider(create: (_) => SixThemeProvider()),
+          ChangeNotifierProvider(create: (_) => ThemeNotifier()),
+        ],
+        child: Consumer<ThemeNotifier>(
+            builder: (context, theme, child) => MaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  title: 'Flutter Demo',
+                  theme: theme.getTheme(),
+                  onGenerateRoute: RouteGenerator.generateRoute,
+                  initialRoute: '/',
+                )));
   }
 }

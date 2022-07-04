@@ -140,7 +140,9 @@ Container firstCompOfDetails(BuildContext context) {
           style: TextStyle(
               color: primaryColor, fontSize: 28, fontWeight: FontWeight.bold),
         ),
-        Divider(),
+        Divider(
+          color: Theme.of(context).accentColor.withOpacity(0.4),
+        ),
         Container(
           height: 80,
           padding: EdgeInsets.symmetric(horizontal: 18.0),
@@ -172,7 +174,9 @@ Container firstCompOfDetails(BuildContext context) {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: VerticalDivider(),
+                  child: VerticalDivider(
+                    color: Theme.of(context).accentColor.withOpacity(0.4),
+                  ),
                 ),
                 Expanded(
                   child: Column(
@@ -197,7 +201,9 @@ Container firstCompOfDetails(BuildContext context) {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: VerticalDivider(),
+                  child: VerticalDivider(
+                    color: Theme.of(context).accentColor.withOpacity(0.4),
+                  ),
                 ),
                 Expanded(
                   child: Column(
@@ -225,7 +231,9 @@ Container firstCompOfDetails(BuildContext context) {
             ),
           ),
         ),
-        Divider(),
+        Divider(
+          color: Theme.of(context).accentColor.withOpacity(0.4),
+        ),
       ],
     ),
   );
@@ -248,7 +256,9 @@ Container secondComponentOfDetails(BuildContext context) {
         SizedBox(
           height: 10,
         ),
-        Divider()
+        Divider(
+          color: Theme.of(context).accentColor.withOpacity(0.4),
+        )
       ],
     ),
   );
@@ -276,7 +286,9 @@ Container thirdComponentOfPhotos(BuildContext context) {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Divider(),
+          child: Divider(
+            color: Theme.of(context).accentColor.withOpacity(0.4),
+          ),
         )
       ],
     ),
@@ -395,7 +407,9 @@ Container fourthComponent(BuildContext context) {
         SizedBox(
           height: 10,
         ),
-        Divider()
+        Divider(
+          color: Theme.of(context).accentColor.withOpacity(0.4),
+        )
       ],
     ),
   );
@@ -426,7 +440,9 @@ Container fifthComponent(BuildContext context) {
         SizedBox(
           height: 10,
         ),
-        Divider()
+        Divider(
+          color: Theme.of(context).accentColor.withOpacity(0.4),
+        )
       ],
     ),
   );

@@ -109,7 +109,9 @@ ListView myLeadsAgentsList() {
                             ],
                           ),
                         ),
-                        Divider()
+                        Divider(
+                          color: Theme.of(context).accentColor.withOpacity(0.4),
+                        )
                       ],
                     ),
             ],

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -31,7 +30,6 @@ class _SignInState extends State<SignIn> {
             await _auth.signInWithCredential(credential);
 
         await Navigator.pushReplacementNamed(context, "/");
-        updatetoken();
 
         return user;
       } else {
@@ -44,22 +42,6 @@ class _SignInState extends State<SignIn> {
   String _email, _password;
   bool isLoading = false;
   bool ispaswordvisible = false;
-
-  void updatetoken() async {
-    var ref = FirebaseFirestore.instance
-        .collection("users")
-        .doc('${FirebaseAuth.instance.currentUser.uid},');
-    ref.set({
-      "user_id": FirebaseAuth.instance.currentUser.uid,
-      "user_email": FirebaseAuth.instance.currentUser.email,
-      'user_name': FirebaseAuth.instance.currentUser.displayName,
-    }).whenComplete(() => {
-          _firebaseMessaging.getToken().then((token) {
-            print(token);
-            ref.update({'token': token.toString()});
-          })
-        });
-  }
 
   login() async {
     if (!isLoading) {
@@ -74,7 +56,6 @@ class _SignInState extends State<SignIn> {
           await _auth.signInWithEmailAndPassword(
               email: _email, password: _password);
           await Navigator.pushReplacementNamed(context, "/");
-          updatetoken();
         } catch (e) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: Colors.red,
@@ -259,7 +240,9 @@ class _SignInState extends State<SignIn> {
                   children: [
                     socialMediaButton(
                         img: 'assets/icons/google.png',
-                        callback: () {},
+                        callback: () {
+                          googleSignIn();
+                        },
                         text: 'Google',
                         color: Colors.grey[200]),
                     socialMediaButton(

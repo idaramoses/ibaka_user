@@ -138,7 +138,9 @@ class _SettingsState extends State<Settings> {
               //         })
               //   ],
               // ),
-              // Divider(),
+              //  Divider(
+              //   color: Theme.of(context).accentColor.withOpacity(0.4),
+              // ),
               // Row(
               //   children: [
               //     Text(
@@ -156,7 +158,9 @@ class _SettingsState extends State<Settings> {
               //         })
               //   ],
               // ),
-              // Divider(),
+              //  Divider(
+              //   color: Theme.of(context).accentColor.withOpacity(0.4),
+              // ),
             ],
           ),
         ),

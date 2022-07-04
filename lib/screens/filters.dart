@@ -80,7 +80,6 @@ class _FiltersState extends State<Filters> {
                     bedRoomsSelected[i] = true;
                   });
                 }
-
               },
               child: Text(
                 'Reset',
@@ -167,12 +166,12 @@ class _FiltersState extends State<Filters> {
                 ],
               ),
             ),
-            Divider(),
-
+            Divider(
+              color: Theme.of(context).accentColor.withOpacity(0.4),
+            ),
             SizedBox(height: 30),
             /*.............Residential, Commercial, Industrial Buttons*/
             _rowOfButtons(),
-
             Container(
               margin: EdgeInsets.only(top: 10),
               child: propertyViews[selectedView],
@@ -226,7 +225,7 @@ class _FiltersState extends State<Filters> {
                 ],
               ),
             ),
-           /* ............................Bedrooms.......................*/
+            /* ............................Bedrooms.......................*/
             Container(
               height: MediaQuery.of(context).size.height * 0.15,
               width: double.infinity,
@@ -373,7 +372,7 @@ class _FiltersState extends State<Filters> {
               ),
             ),
 
-           /* ...........................Bathrooms..............*/
+            /* ...........................Bathrooms..............*/
             Container(
               height: MediaQuery.of(context).size.height * 0.15,
               width: double.infinity,
