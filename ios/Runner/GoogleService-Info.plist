@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>865558791864-peumb7qigdpbdki65i6hngflnf9jtf0n.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.865558791864-peumb7qigdpbdki65i6hngflnf9jtf0n</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>865558791864-2ai3en882oaembm8bnt9odua0f82brf5.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAevMh5yCMhBQaWBOgvQQAXXk2QF2x5kA0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>865558791864</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.maradi.ibaka1</string>
+	<key>PROJECT_ID</key>
+	<string>ibaka-da9f0</string>
+	<key>STORAGE_BUCKET</key>
+	<string>ibaka-da9f0.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:865558791864:ios:56e884ab8e0fb645e7164d</string>
+</dict>
+</plist>

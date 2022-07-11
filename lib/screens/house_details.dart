@@ -7,8 +7,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:onproperty/utils/colorscheme.dart';
 import 'package:onproperty/utils/constants.dart';
 
-import 'chart/chat_details.dart';
-
 class HouseDetails extends StatefulWidget {
   final Map data;
 
@@ -549,92 +547,92 @@ class _HouseDetailsState extends State<HouseDetails> {
                   ],
                 ),
               ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                height: MediaQuery.of(context).size.height * 0.35,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Contact Us',
-                      style: kh1,
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Center(
-                      child: CircleAvatar(
-                        maxRadius: 45,
-                        backgroundImage:
-                            AssetImage('assets/images/person2.jpeg'),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Center(
-                        child: Text(
-                      widget.data['user_name'],
-                      style: TextStyle(
-                          color: primaryColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18),
-                    )),
-                    // Center(
-                    //     child: Text(
-                    //   'Takaful Real Estate',
-                    //   style: TextStyle(color: Colors.black, fontSize: 14),
-                    // )),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: 40,
-                          width: 120,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20.0),
-                              color: Theme.of(context).backgroundColor),
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => Chat(
-                                    peername: '${widget.data['user_name']}',
-                                    peerId: '${widget.data['user_id']}',
-                                    userId: '${widget.data['user_id']}',
-                                    houseId: '${widget.data['house_id']}',
-                                    peerAvatar: 'private',
-                                  ),
-                                ),
-                              );
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.mail,
-                                  color: primaryColor,
-                                  size: 17,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  'Message',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                )
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              )
+              // Container(
+              //   padding: EdgeInsets.symmetric(horizontal: 8.0),
+              //   height: MediaQuery.of(context).size.height * 0.35,
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: [
+              //       Text(
+              //         'Contact Us',
+              //         style: kh1,
+              //       ),
+              //       SizedBox(
+              //         height: 15,
+              //       ),
+              //       Center(
+              //         child: CircleAvatar(
+              //           maxRadius: 45,
+              //           backgroundImage:
+              //               AssetImage('assets/images/person2.jpeg'),
+              //         ),
+              //       ),
+              //       SizedBox(
+              //         height: 10,
+              //       ),
+              //       Center(
+              //           child: Text(
+              //         widget.data['user_name'],
+              //         style: TextStyle(
+              //             color: primaryColor,
+              //             fontWeight: FontWeight.bold,
+              //             fontSize: 18),
+              //       )),
+              //       // Center(
+              //       //     child: Text(
+              //       //   'Takaful Real Estate',
+              //       //   style: TextStyle(color: Colors.black, fontSize: 14),
+              //       // )),
+              //       SizedBox(
+              //         height: 15,
+              //       ),
+              //       Row(
+              //         mainAxisAlignment: MainAxisAlignment.center,
+              //         children: [
+              //           Container(
+              //             height: 40,
+              //             width: 120,
+              //             decoration: BoxDecoration(
+              //                 borderRadius: BorderRadius.circular(20.0),
+              //                 color: Theme.of(context).backgroundColor),
+              //             child: InkWell(
+              //               onTap: () {
+              //                 Navigator.of(context).push(
+              //                   MaterialPageRoute(
+              //                     builder: (context) => Chat(
+              //                       peername: '${widget.data['user_name']}',
+              //                       peerId: '${widget.data['user_id']}',
+              //                       userId: '${widget.data['user_id']}',
+              //                       houseId: '${widget.data['house_id']}',
+              //                       peerAvatar: 'private',
+              //                     ),
+              //                   ),
+              //                 );
+              //               },
+              //               child: Row(
+              //                 mainAxisAlignment: MainAxisAlignment.center,
+              //                 children: [
+              //                   Icon(
+              //                     Icons.mail,
+              //                     color: primaryColor,
+              //                     size: 17,
+              //                   ),
+              //                   SizedBox(
+              //                     width: 10,
+              //                   ),
+              //                   Text(
+              //                     'Message',
+              //                     style: TextStyle(fontWeight: FontWeight.bold),
+              //                   )
+              //                 ],
+              //               ),
+              //             ),
+              //           )
+              //         ],
+              //       )
+              //     ],
+              //   ),
+              // )
             ],
           ),
         ),

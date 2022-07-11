@@ -15,7 +15,6 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-
 version: 1.0.2+3
 
 environment:
@@ -42,27 +41,28 @@ dependencies:
   firebase_messaging:
   firebase_auth:
   firebase_database:
-  firebase_storage:
-  cloud_firestore:
+  firebase_core: ^0.5.3
+  firebase_storage: ^5.2.0
+  cloud_firestore: ^0.14.1+2
   firebase_dynamic_links:
   path_provider:
   fluttertoast: ^4.0.1
-#  share: 0.5.3
+  share: 0.5.3
   google_sign_in: ^4.5.9
   flutter_signin_button: ^1.0.0
-  firebase_core: ^0.6.0
-  flutter_swiper: 1.1.6
+  #  firebase_core: ^0.6.0
+  cool_stepper: ^0.0.1
+  future_progress_dialog: ^0.1.1
+  flutter_screenutil: ^1.0.2
+  image_picker: ^0.6.7+15
+  flutter_spinkit: ^4.1.2+1
+  file_picker: ^1.1.1
   multi_image_picker:
   cached_network_image: ^2.3.1
   readmore: ^2.1.0
   flushbar: ^1.10.4
-  intl: ^0.16.1
-  flutter_screenutil: ^1.0.2
-  dots_indicator: ^1.0.0
-  image_picker: ^0.6.7+15
-  flutter_spinkit: ^4.1.2+1
-  file_picker: ^1.1.1
   timeago: ^2.0.30
+  flutter_swiper: 1.1.6
 
 
 
@@ -73,7 +73,6 @@ flutter_icons:
   android: "launcher_icon"
   ios: true
   image_path: "assets/images/logo_Icon.png"
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
